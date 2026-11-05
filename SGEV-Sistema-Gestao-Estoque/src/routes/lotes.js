@@ -22,4 +22,20 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Rota DELETE: Remove um lote pelo ID
+router.delete('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const loteRemovido = await Lote.findByIdAndDelete(id);
+        
+        if (!loteRemovido) {
+            return res.status(404).json({ erro: 'Lote não encontrado' });
+        }
+        
+        res.json({ mensagem: 'Lote removido com sucesso!' });
+    } catch (error) {
+        res.status(500).json({ erro: 'Erro ao remover lote', detalhes: error.message });
+    }
+});
+
 module.exports = router;
